@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Header } from "./Components/Header.jsx";
 import { Summary } from "./Components/Summary.jsx";
 import { ExpenseForm } from "./Components/ExpenseForm.jsx";
@@ -22,16 +22,6 @@ export default function App() {
 
   // console.log(totalAmount);
   const arrLength = arr.length;
-
-  //Storing the data effect
-  useEffect(
-    function () {
-      // console.log("Effect runs");
-      const string = JSON.stringify(arr);
-      localStorage.setItem("expenseList", string);
-    },
-    [arr],
-  );
 
   //Retrieving the data
   // useEffect(function () {
