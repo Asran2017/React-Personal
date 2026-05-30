@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react";
-import { useLocalStorage } from "./useLocalStorage.jsx";
-
+import { useNotes } from "./useNotes.jsx";
 export default function App() {
-  const [notesArray, setNotesArray] = useLocalStorage([], "notesList");
-  const [searchNotes, setsearchNotes] = useState("");
-  const [editNote, setEditNote] = useState("");
-
-  const handleDelete = (id) => {
-    setNotesArray((currArr) => currArr.filter((elt) => elt.id !== id));
-  };
-  const filteredNotes = notesArray.filter((note) =>
-    note.title.toLowerCase().includes(searchNotes.toLowerCase()),
-  );
+  const {
+    notesArray,
+    setNotesArray,
+    editNote,
+    setEditNote,
+    handleDelete,
+    searchNotes,
+    setsearchNotes,
+    filteredNotes,
+    successMsg,
+    showSuccess,
+  } = useNotes();
 
   return (
     <div className="min-h-screen bg-slate-300 p-6">
       <div className="max-w-7xl mx-auto grid grid-cols-[350px_1fr] gap-6">
+        {successMsg && (
+          <div className="mb-4 p-3 rounded-xl bg-green-100 text-green-700 font-semibold text-center shadow-md">
+            {successMsg}
+          </div>
+        )}
         <Card>
           <NoteForm
+            showSuccess={showSuccess}
             setNoteArray={setNotesArray}
             noteArray={notesArray}
             editNote={editNote}
@@ -41,7 +48,13 @@ export default function App() {
   );
 }
 
-const NoteForm = ({ setNoteArray, noteArray, editNote, setEditNote }) => {
+const NoteForm = ({
+  setNoteArray,
+  noteArray,
+  editNote,
+  setEditNote,
+  showSuccess,
+}) => {
   const [notesInput, setNotesInput] = useState("");
   const [titleInput, setTitleInput] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
@@ -56,6 +69,7 @@ const NoteForm = ({ setNoteArray, noteArray, editNote, setEditNote }) => {
             : note,
         ),
       );
+      showSuccess("Note updated");
       setNotesInput("");
       setTitleInput("");
       setEditNote("");
@@ -72,6 +86,7 @@ const NoteForm = ({ setNoteArray, noteArray, editNote, setEditNote }) => {
       return false;
     }
     setNoteArray((currNote) => [...currNote, newNote]);
+    showSuccess("Note Added Successfully");
     setNotesInput("");
     setTitleInput("");
     setInputsErrorMessage(false);
@@ -79,10 +94,11 @@ const NoteForm = ({ setNoteArray, noteArray, editNote, setEditNote }) => {
     return true;
   };
   //Editing Note
+
   useEffect(
     function () {
       if (!editNote) return;
-
+      // eslint-disable-next-line
       setNotesInput(editNote.content);
       setTitleInput(editNote.title);
     },
@@ -145,7 +161,7 @@ const NoteForm = ({ setNoteArray, noteArray, editNote, setEditNote }) => {
         </div>
         {errorMessage && (
           <ErrorMessage>
-            This note already exists!You can edit the note if you want
+            This note already exists!You can edit the note if you want.
           </ErrorMessage>
         )}
       </form>
@@ -158,7 +174,10 @@ const NotesList = ({ displayedNotes, onHandleDelete, setEditNote }) => {
     <>
       <ul className="flex flex-col gap-2 mb-4 mt-4">
         {displayedNotes.length === 0 ? (
-          <ErrorMessage>Start adding notes!</ErrorMessage>
+          <div className="text-center py-10 text-slate-500">
+            <p className="text-lg font-semibold">No notes yet 📝</p>
+            <p className="text-sm">Start by adding your first note</p>
+          </div>
         ) : (
           displayedNotes.map((note, index) => (
             <NoteItem
