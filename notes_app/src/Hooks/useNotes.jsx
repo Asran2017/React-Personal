@@ -15,6 +15,7 @@ export const useNotes = () => {
   );
   const showSuccess = (msg) => {
     setSuccessMsg(msg);
+    console.log("The message is called");
     setTimeout(() => {
       setSuccessMsg("");
     }, 2500);
