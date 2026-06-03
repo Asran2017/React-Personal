@@ -1,7 +1,7 @@
 import { Card } from "./UI_Components/Card.jsx";
 import { useNotes } from "./Hooks/useNotes.jsx";
-import { NoteForm } from "./NoteForm.jsx";
-import { NotesList } from "./NotesList.jsx";
+import { NoteForm } from "./Functional_Components/NoteForm.jsx";
+import { NotesList } from "./Functional_Components/NotesList.jsx";
 import { SearchBar } from "./UI_Components/SearchBar.jsx";
 export default function App() {
   const {

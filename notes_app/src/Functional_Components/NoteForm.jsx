@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ErrorMessage } from "./ErrorMessage";
+import { ErrorMessage } from "../UI_Components/ErrorMessage.jsx";
 
 export const NoteForm = ({
   setNoteArray,
@@ -40,7 +40,7 @@ export const NoteForm = ({
       return false;
     }
     setNoteArray((currNote) => [...currNote, newNote]);
-    console.log("New note added!");
+
     showSuccess("Note Added Successfully");
     setNotesInput("");
     setTitleInput("");
