@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-function MovieForm({ dispatch, editMovie }) {
+import { useNavigate, useParams } from "react-router-dom";
+//eslint-disable-next-line
+function MovieForm({ dispatch, editMovie, moviesList }) {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const movie = moviesList.find((movie) => movie.id === +id);
   const [title, setTitle] = useState("");
   const [rating, setRating] = useState("");
   const [language, setLanguage] = useState("");
   const [watched, setWatched] = useState(false);
 
   function handleSubmit(e) {
-    console.log("Before editing", editMovie);
+    // console.log("Before editing", editMovie);
     e.preventDefault();
 
     const movieData = {
@@ -17,11 +20,11 @@ function MovieForm({ dispatch, editMovie }) {
       language,
       watched,
     };
-    if (editMovie.id) {
+    if (movie) {
       console.log("Updating Movie");
       dispatch({
         type: "updateMovie",
-        payload: { ...movieData, id: editMovie.id },
+        payload: { ...movieData, id: +id },
       });
       navigate("/");
     } else {
@@ -32,14 +35,14 @@ function MovieForm({ dispatch, editMovie }) {
     }
   }
   useEffect(() => {
-    if (editMovie.id) {
+    if (movie) {
       //eslint-disable-next-line
-      setTitle(editMovie.title);
-      setRating(editMovie.rating);
-      setLanguage(editMovie.language);
-      setWatched(editMovie.watched);
+      setTitle(movie.title);
+      setRating(movie.rating);
+      setLanguage(movie.language);
+      setWatched(movie.watched);
     }
-  }, [editMovie]);
+  }, [movie]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -73,7 +76,7 @@ function MovieForm({ dispatch, editMovie }) {
         </label>
       </div>
 
-      <button type="submit">{editMovie.id ? "Edit Movie" : "Add Movie"}</button>
+      <button type="submit">{movie ? "Edit Movie" : "Add Movie"}</button>
     </form>
   );
 }

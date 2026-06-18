@@ -97,6 +97,10 @@ function App() {
             path="movies/:id"
             element={<MovieDetails moviesList={moviesList} />}
           />
+          <Route
+            path="/edit/:id"
+            element={<MovieForm moviesList={moviesList} dispatch={dispatch} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
