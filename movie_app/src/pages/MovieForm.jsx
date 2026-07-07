@@ -30,7 +30,7 @@ function MovieForm({ dispatch, editMovie, moviesList }) {
     } else {
       console.log("Adding movie");
       dispatch({ type: "addMovie", payload: movieData });
-      console.log(movieData);
+      // console.log(movieData);
       navigate("/");
     }
   }

@@ -31,7 +31,6 @@ const initialState = {
   editingMovie: {},
 };
 const reducer = (state, action) => {
-  console.log("Action recieved,action");
   switch (action.type) {
     case "addMovie":
       // if (state.moviesList.some((elt) => elt.title === action.payload.title))
@@ -91,7 +90,13 @@ function App() {
 
           <Route
             path="add"
-            element={<MovieForm dispatch={dispatch} editMovie={editingMovie} />}
+            element={
+              <MovieForm
+                dispatch={dispatch}
+                editMovie={editingMovie}
+                moviesList={moviesList}
+              />
+            }
           />
           <Route
             path="movies/:id"

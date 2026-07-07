@@ -86,7 +86,7 @@ const ProductCard = ({ product, onDelete }) => {
           <h2 className="text-lg font-bold mt-3 text-gray-800">
             {product.Product}
           </h2>
-          <p className="text-gray-600">Quantity:{product.Quantity}</p>
+          <p className="text-gray-600 bg-red">Quantity:{product.Quantity}</p>
           <p className="text-gray-600 font-bold ">$499</p>
         </div>
         <button
