@@ -9,12 +9,19 @@ function JobDetails() {
     Rejected: "bg-rose-100 text-rose-700",
   };
   const { id } = useParams();
+
   const navigate = useNavigate();
-  const { initialJobs } = useJobs();
+
+  const { initialJobs, dispatch } = useJobs();
+
   const selectedJob = initialJobs.find((job) => job.id === +id);
-  console.log(selectedJob);
+
   function handleEdit() {
     navigate(`/edit/${id}`);
+  }
+  function handleDelete(id) {
+    dispatch({ type: "deleteJob", payload: id });
+    navigate("/");
   }
   return (
     <div className="app-font flex min-h-screen justify-center bg-zinc-100 p-8">
@@ -64,7 +71,10 @@ function JobDetails() {
             Edit
           </button>
 
-          <button className="rounded-lg bg-rose-600 px-5 py-2.5 text-white transition hover:bg-rose-700">
+          <button
+            onClick={() => handleDelete(selectedJob.id)}
+            className="rounded-lg bg-rose-600 px-5 py-2.5 text-white transition hover:bg-rose-700"
+          >
             Delete
           </button>
         </div>

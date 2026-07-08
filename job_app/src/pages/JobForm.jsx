@@ -64,6 +64,7 @@ function JobForm() {
             type="text"
             name="company"
             placeholder="e.g. Google"
+            required
             value={company}
             onChange={(e) => setCompany(e.target.value)}
           />
@@ -82,6 +83,7 @@ function JobForm() {
             type="text"
             name="role"
             placeholder="e.g. Frontend Developer"
+            required
             value={role}
             onChange={(e) => setRole(e.target.value)}
           />
@@ -156,6 +158,7 @@ function JobForm() {
             name="description"
             rows="5"
             placeholder="Add notes about the role..."
+            required
             value={description}
             onChange={(e) => setJobDescription(e.target.value)}
           />
