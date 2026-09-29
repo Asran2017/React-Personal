@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-app-bg: #ddd2e3;
+  --color-card: #f3edf5;
+
+  --color-muted-text: #6f6472;
+  --color-mauve: #8f6488;
+  --color-dusty-rose: #b97984;
+  --color-sage: #718f7c;
+  --color-gold: #a88c58;
+  --font-heading: "Space-Grotesk", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #eadff5;
+  color: #3f1755;
+}

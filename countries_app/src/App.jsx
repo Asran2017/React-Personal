@@ -41,7 +41,7 @@ export default function App() {
         setIsLoading(true);
         setErrorMsg("");
         const res = await fetch(
-          "https://restcountries.com/v3.1/all?fields=name,capital,population,region,flag,languages,subregion,borders,currencies,flags",
+          "https://restcountries.com/v5/all?fields=name,capital,population,region,languages,subregion,borders,currencies,flags",
           { signal: controller.signal }, //cleanup signal
         );
         if (!res.ok) throw new Error("Something went wrong with fetching data");
