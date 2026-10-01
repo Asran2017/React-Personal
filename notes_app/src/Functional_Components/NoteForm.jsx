@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ErrorMessage } from "../UI_Components/ErrorMessage.jsx";
 
 export const NoteForm = ({
@@ -12,8 +12,9 @@ export const NoteForm = ({
   const [titleInput, setTitleInput] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
   const [inputsErrorMessage, setInputsErrorMessage] = useState(false);
+  const inputRef = useRef(null);
   const addNote = (e) => {
-    console.log("entered add function");
+    // console.log("entered add function");
     e.preventDefault();
     if (editNote) {
       setNoteArray((currNote) =>
@@ -23,6 +24,7 @@ export const NoteForm = ({
             : note,
         ),
       );
+      inputRef.current.focus();
       showSuccess("Note updated");
       setNotesInput("");
       setTitleInput("");
@@ -42,6 +44,8 @@ export const NoteForm = ({
     setNoteArray((currNote) => [...currNote, newNote]);
 
     showSuccess("Note Added Successfully");
+    inputRef.current.focus();
+
     setNotesInput("");
     setTitleInput("");
     setInputsErrorMessage(false);
@@ -74,6 +78,7 @@ export const NoteForm = ({
           type="text"
           value={titleInput}
           onChange={(e) => setTitleInput(e.target.value)}
+          ref={inputRef}
         />
         <label htmlFor="note" className="text-sm font-semibold text-slate-800">
           Enter Note:
