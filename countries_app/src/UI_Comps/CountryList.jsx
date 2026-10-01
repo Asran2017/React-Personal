@@ -22,7 +22,7 @@ export const CountryList = ({
         {selectedCountries.map((country, index) => (
           <CountryCard
             country={country}
-            key={country.name.common}
+            key={country.names.common}
             index={index}
             onhandleCountryClick={onhandleCountryClick}
             displayCountryName={displayCountryName}

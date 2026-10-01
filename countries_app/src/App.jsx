@@ -17,7 +17,9 @@ export default function App() {
 
   const filteredCountry = countries.filter(
     (country) =>
-      country.name.common.toLowerCase().includes(searchCountry.toLowerCase()) &&
+      country.names.common
+        .toLowerCase()
+        .includes(searchCountry.toLowerCase()) &&
       (country.region === regionFilter || regionFilter === "All"),
   );
   // const countryDetails = countries.find(
@@ -41,13 +43,20 @@ export default function App() {
         setIsLoading(true);
         setErrorMsg("");
         const res = await fetch(
-          "https://restcountries.com/v5/all?fields=name,capital,population,region,languages,subregion,borders,currencies,flags",
-          { signal: controller.signal }, //cleanup signal
+          "https://api.restcountries.com/countries/v5?limit=100",
+          {
+            signal: controller.signal,
+            headers: {
+              Authorization: "Bearer rc_live_41085b1096654ea0ba7678b7bac54a12",
+            },
+          },
+          //cleanup signal
         );
         if (!res.ok) throw new Error("Something went wrong with fetching data");
         const data = await res.json();
-        setCountries(data);
-        // console.log(data);
+        setCountries(data.data.objects);
+        console.log(data);
+        console.log(data.data.objects[0].capitals);
       } catch (err) {
         console.error(err.message);
         if (err.name !== "AbortError") setErrorMsg(err.message);
@@ -66,23 +75,15 @@ export default function App() {
       <h1 className="text-4xl font-extrabold tracking-wide text-blue-700 font-heading">
         🌍 Country Explorer
       </h1>
-
       <p className="text-blue-500 ml-7 font-body font-medium">
         Discover countries around the world
       </p>
-
       <SearchBar
         search={searchCountry}
         setSearch={setSearchCountry}
         regionFilter={regionFilter}
         setRegionFilter={setRegionFilter}
-      />
-
-      {/* <div>
-        <p className="font-semibold text-xl p-2 text-center text-blue-600">
-          🌎 {filteredCountry.length} countries found
-        </p>
-      </div> */}
+      />{" "}
       <CountryList
         selectedCountries={filteredCountry}
         onhandleCountryClick={handleCountryClick}
@@ -91,13 +92,10 @@ export default function App() {
         //   regionFilter !== "All" ? filteredRegion : filteredCountry
         // }
       />
-
       {isLoading && <Loader />}
-
       {searchCountry && filteredCountry.length === 0 && (
         <ErrorMessage>No country matches your search criteria</ErrorMessage>
       )}
-
       {errorMsg && <ErrorMessage message={errorMsg} />}
     </div>
   );
@@ -109,7 +107,7 @@ export const CountryCard = ({
   onhandleCountryClick,
   displayCountryName,
 }) => {
-  const isOpen = country.name.common === displayCountryName;
+  const isOpen = country.names.common === displayCountryName;
   return (
     <>
       <li className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-5 hover:shadow-xl hover:-translate-y-1 transition">
@@ -117,12 +115,15 @@ export const CountryCard = ({
           <span className="text-sm font-bold text-blue-500 font-heading">
             #{index + 1}
           </span>
-          <span className="text-3xl font-heading">{country.flag}</span>
-          <span className="text-2xl font-bold font-heading text-blue-800 font-serif">
-            {country.name.common}
+          <span className="text-3xl font-heading">{country.flag.emoji}</span>
+          <span className="text-2xl font-bold font-heading text-blue-800 ">
+            {country.names.common}
           </span>
         </div>
-        <InitialCard label="🏛️ Capital:" value={country.capital[0]} />
+        <InitialCard
+          label="🏛️ Capital:"
+          value={country.capitals?.[0]?.name || "No Capital"}
+        />
         <InitialCard label="🌍 Region:" value={country.region} />
         <InitialCard
           label="👥 Population:"
@@ -131,7 +132,7 @@ export const CountryCard = ({
 
         <footer
           className="mt-4 border-t border-dashed pt-3 text-center font-semibold text-blue-600 cursor-pointer hover:text-blue-800"
-          onClick={() => onhandleCountryClick(country.name.common)}
+          onClick={() => onhandleCountryClick(country.names.common)}
         >
           {!isOpen ? <p>⬇️ View More Details</p> : <p>⬆️Hide Details</p>}
         </footer>

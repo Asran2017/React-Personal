@@ -19,7 +19,9 @@ export const CountryDetails = ({ selectedCountry }) => {
           <DetailsRow label="🌎 Subregion" value={selectedCountry.subregion} />
           <DetailsRow
             label="🗣️ Languages"
-            value={Object.values(selectedCountry.languages).join(", ")}
+            value={Object.values(
+              selectedCountry.languages.map((language) => language.name),
+            ).join(", ")}
           />
           <DetailsRow label="💰 Currency" value={currencies} />
 
@@ -33,13 +35,13 @@ export const CountryDetails = ({ selectedCountry }) => {
           </DetailsRow>
         </div>
 
-        <div className="mt-6 flex justify-center mr-10">
+        {/* <div className="mt-6 flex justify-center mr-10">
           <img
             src={selectedCountry.flags.png}
             alt={`${selectedCountry.name.common} flag`}
             className="w-40 rounded shadow"
           />
-        </div>
+        </div> */}
       </div>
     </>
   );
